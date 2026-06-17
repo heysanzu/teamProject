@@ -1,2 +1,4 @@
 ## Final Year Project (2023-26)
-- Leader @heysanzu
+- Leader: *@heysanzu*
+- Member 1: *Akash*
+- Member 2: *Avishek*
