@@ -1,63 +1,1009 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Student Entry Form</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Year Project — MUXBITE × BCA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --black: #0a0a0a;
+    --grey-100: #f7f7f7;
+    --grey-200: #eeeeee;
+    --grey-300: #d4d4d4;
+    --grey-400: #a3a3a3;
+    --grey-500: #737373;
+    --grey-700: #404040;
+    --grey-900: #171717;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--grey-200);
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--black);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--grey-500);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--black); }
+
+  .nav-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--grey-300);
+    border-radius: 100px;
+    color: var(--grey-500);
+    background: var(--grey-100);
+  }
+
+  /* HERO */
+  .hero {
+    padding: 160px 2.5rem 100px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--black);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-title .line-muted {
+    color: var(--grey-400);
+    font-weight: 300;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: var(--grey-500);
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    background: var(--black);
+    color: var(--white);
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover { opacity: 0.8; }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    background: transparent;
+    color: var(--grey-700);
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid var(--grey-300);
+    transition: background 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .btn-ghost:hover { background: var(--grey-100); border-color: var(--grey-400); }
+
+  /* HERO CARD */
+  .hero-visual {
+    position: relative;
+  }
+
+  .glass-card {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--grey-200);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(245,245,245,0.5) 100%);
+    border-radius: 20px;
+    z-index: 0;
+  }
+
+  .glass-card > * { position: relative; z-index: 1; }
+
+  .card-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--grey-400);
+    letter-spacing: 0.08em;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    padding: 3px 10px;
+    background: var(--grey-100);
+    border: 1px solid var(--grey-200);
+    border-radius: 100px;
+    color: var(--grey-500);
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--black);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .model-name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+
+  .model-sub {
+    font-size: 13px;
+    color: var(--grey-400);
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-item {
+    background: var(--grey-100);
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--grey-200);
+  }
+
+  .stat-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--black);
+    display: block;
+  }
+
+  .stat-key {
+    font-size: 10px;
+    color: var(--grey-400);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+    display: block;
+  }
+
+  .progress-section { margin-top: 0.5rem; }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--grey-500);
+    margin-bottom: 6px;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--grey-200);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--black);
+    border-radius: 100px;
+    transition: width 1s ease;
+  }
+
+  /* SECTION COMMON */
+  section { max-width: 1100px; margin: 0 auto; padding: 80px 2.5rem; }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey-400);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--black);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--grey-500);
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 3rem;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--grey-200);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* FEATURES */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .feature-card {
+    background: var(--grey-100);
+    border: 1px solid var(--grey-200);
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .feature-card:hover {
+    border-color: var(--grey-400);
+    background: var(--white);
+  }
+
+  .feature-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--grey-300);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .feature-icon svg {
+    width: 18px; height: 18px;
+    stroke: var(--black);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .feature-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-desc {
+    font-size: 13px;
+    color: var(--grey-500);
+    line-height: 1.6;
+  }
+
+  /* TEAM */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+
+  .team-card {
+    background: var(--grey-100);
+    border: 1px solid var(--grey-200);
+    border-radius: 16px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .team-card:hover {
+    border-color: var(--grey-400);
+    transform: translateY(-2px);
+  }
+
+  .team-card.leader {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+  }
+
+  .avatar {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.75rem;
+  }
+
+  .avatar-default {
+    background: var(--grey-200);
+    color: var(--black);
+  }
+
+  .avatar-leader {
+    background: rgba(255,255,255,0.12);
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .team-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
+  .team-role {
+    font-size: 11px;
+    color: var(--grey-400);
+  }
+
+  .team-role-leader {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .team-handle {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+  }
+
+  .leader-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 100px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 0.5rem;
+  }
+
+  /* STACK */
+  .stack-section {
+    background: var(--grey-100);
+    border-top: 1px solid var(--grey-200);
+    border-bottom: 1px solid var(--grey-200);
+  }
+
+  .stack-section section {
+    padding: 60px 2.5rem;
+  }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .stack-item {
+    background: var(--white);
+    border: 1px solid var(--grey-200);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .stack-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--grey-100);
+    border: 1px solid var(--grey-200);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stack-icon svg {
+    width: 15px; height: 15px;
+    stroke: var(--grey-700);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .stack-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .stack-cat {
+    font-size: 11px;
+    color: var(--grey-400);
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: calc(12.5% + 1px);
+    right: calc(12.5% + 1px);
+    height: 1px;
+    background: var(--grey-300);
+    z-index: 0;
+  }
+
+  .timeline-step {
+    text-align: center;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tl-dot {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--grey-300);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--grey-500);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .timeline-step.active .tl-dot {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+  }
+
+  .tl-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+
+  .tl-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--grey-400);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--grey-200);
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .footer-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--grey-400);
+  }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--grey-400);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+    color: var(--grey-400);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--black); }
+
+  /* ABSTRACT BG MESH */
+  .bg-mesh {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .mesh-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.06;
+    background: var(--black);
+  }
+
+  .mesh-blob-1 { width: 600px; height: 600px; top: -200px; right: -100px; }
+  .mesh-blob-2 { width: 400px; height: 400px; bottom: 100px; left: -100px; }
+  .mesh-blob-3 { width: 300px; height: 300px; top: 40%; left: 30%; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 2.5rem; }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .team-grid { grid-template-columns: repeat(3, 1fr); }
+    .stack-grid { grid-template-columns: repeat(2, 1fr); }
+    .timeline { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .timeline::before { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { display: none; }
+    section { padding: 60px 1.25rem; }
+    .hero { padding: 120px 1.25rem 60px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .stack-grid { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+</style>
 </head>
 <body>
-    <h2>Entry of Student Form</h2>
-    <form action="#" method="post">
-        
-        <div class="form-group">
-            <label for="name">Name</label><br>
-            <input type="text" id="name" name="name" placeholder="Enter your name">
-        </div>
 
-        <div class="form-group">
-            <label for="password">Password</label><br>
-            <input type="password" id="password" name="password">
-        </div>
+<!-- Background mesh -->
+<div class="bg-mesh" aria-hidden="true">
+  <div class="mesh-blob mesh-blob-1"></div>
+  <div class="mesh-blob mesh-blob-2"></div>
+  <div class="mesh-blob mesh-blob-3"></div>
+</div>
 
-        <div class="form-group">
-            <label for="class">Class</label><br>
-            <input type="text" id="class" name="class">
-        </div>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">FYP / 2025–26</a>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+  </ul>
+  <span class="nav-badge">BCA · Final Year</span>
+</nav>
 
-        <div class="form-group">
-            <label for="section">Section</label><br>
-            <select id="section" name="section">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-            </select>
-        </div>
+<!-- HERO -->
+<div class="hero" id="overview">
+  <div>
+    <p class="hero-eyebrow">Final Year Project · 2025–26</p>
+    <h1 class="hero-title">
+      Building intelligence<br>
+      <span class="line-muted">from the ground up.</span>
+    </h1>
+    <p class="hero-desc">
+      An AI/ML research project developed by a team of six — exploring machine learning models, intelligent systems, and applied artificial intelligence for real-world problems.
+    </p>
+    <div class="hero-cta-group">
+      <a href="#features" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        View Project
+      </a>
+      <a href="#team" class="btn-ghost">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Meet the Team
+      </a>
+    </div>
+  </div>
 
-        <div class="form-group">
-            <label>Gender</label><br>
-            <input type="radio" id="male" name="gender" value="Male">
-            <label for="male">Male</label>
-            <input type="radio" id="female" name="gender" value="Female">
-            <label for="female">Female</label>
+  <div class="hero-visual">
+    <div class="glass-card">
+      <div class="card-noise"></div>
+      <div class="card-header">
+        <span class="card-label">PROJECT · ML MODEL</span>
+        <span class="status-pill">
+          <span class="status-dot"></span>
+          In Progress
+        </span>
+      </div>
+      <div class="model-name">AI System</div>
+      <div class="model-sub">Machine Learning · Deep Learning · NLP</div>
+      <div class="stat-row">
+        <div class="stat-item">
+          <span class="stat-val">6</span>
+          <span class="stat-key">Members</span>
         </div>
-
-        <div class="form-group">
-            <label for="address">Address</label><br>
-            <textarea id="address" name="address" rows="4" cols="30"></textarea>
+        <div class="stat-item">
+          <span class="stat-val">1</span>
+          <span class="stat-key">Year</span>
         </div>
-
-        <div class="form-group">
-            <input type="submit" value="Submit">
-            <input type="reset" value="Reset">
+        <div class="stat-item">
+          <span class="stat-val">AI/ML</span>
+          <span class="stat-key">Domain</span>
         </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-label">
+          <span>Data Collection</span><span>85%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div>
+        <div class="progress-label">
+          <span>Model Training</span><span>60%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+        <div class="progress-label">
+          <span>Evaluation</span><span>30%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:30%"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    </form>
+<hr class="divider">
+
+<!-- FEATURES -->
+<section id="features">
+  <p class="section-eyebrow">What we're building</p>
+  <h2 class="section-title">Core components</h2>
+  <p class="section-sub">A full-stack AI/ML project covering data engineering, model development, and intelligent inference pipelines.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="feature-title">Data Pipeline</div>
+      <div class="feature-desc">Automated data collection, cleaning, and preprocessing pipelines for structured and unstructured datasets.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <div class="feature-title">Model Architecture</div>
+      <div class="feature-desc">Custom neural network design with optimized layers, activation functions, and regularization strategies.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+      </div>
+      <div class="feature-title">Training System</div>
+      <div class="feature-desc">Distributed training loops with learning rate scheduling, gradient clipping, and checkpoint management.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="feature-title">Evaluation Metrics</div>
+      <div class="feature-desc">Comprehensive benchmarking with precision, recall, F1, ROC-AUC, and domain-specific performance metrics.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      </div>
+      <div class="feature-title">Inference API</div>
+      <div class="feature-desc">REST API layer for real-time and batch model inference with response caching and rate limiting.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </div>
+      <div class="feature-title">Analytics Dashboard</div>
+      <div class="feature-desc">Live monitoring of training curves, model drift, and prediction confidence with interactive visualizations.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TEAM -->
+<section id="team">
+  <p class="section-eyebrow">The people</p>
+  <h2 class="section-title">Our team</h2>
+  <p class="section-sub">Six members. One shared goal. Built end-to-end by students who care about what they're making.</p>
+
+  <div class="team-grid">
+    <!-- Leader -->
+    <div class="team-card leader">
+      <div class="leader-badge">Leader</div>
+      <div class="avatar avatar-leader">SH</div>
+      <div class="team-name">Shahnewaz</div>
+      <div class="team-role-leader">Project Lead · AI</div>
+      <div class="team-handle">@heysanzu</div>
+    </div>
+
+    <!-- Members -->
+    <div class="team-card">
+      <div class="avatar avatar-default">AK</div>
+      <div class="team-name">Akash</div>
+      <div class="team-role">ML Engineer</div>
+    </div>
+
+    <div class="team-card">
+      <div class="avatar avatar-default">AV</div>
+      <div class="team-name">Avishek</div>
+      <div class="team-role">Backend Dev</div>
+    </div>
+
+    <div class="team-card">
+      <div class="avatar avatar-default">KR</div>
+      <div class="team-name">Kriti</div>
+      <div class="team-role">Data Engineer</div>
+    </div>
+
+    <div class="team-card">
+      <div class="avatar avatar-default">NI</div>
+      <div class="team-name">Nisha</div>
+      <div class="team-role">Research Analyst</div>
+    </div>
+
+    <div class="team-card">
+      <div class="avatar avatar-default">SA</div>
+      <div class="team-name">Sandeep</div>
+      <div class="team-role">Frontend Dev</div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK SECTION -->
+<div class="stack-section">
+  <section id="stack">
+    <p class="section-eyebrow">Technical stack</p>
+    <h2 class="section-title" style="margin-bottom:0.75rem">Tools &amp; technologies</h2>
+    <p class="section-sub">Built on proven open-source tools and frameworks used at scale in production ML systems.</p>
+
+    <div class="stack-grid">
+      <div class="stack-item">
+        <div class="stack-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+        <div>
+          <div class="stack-name">Python</div>
+          <div class="stack-cat">Core Language</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+        </div>
+        <div>
+          <div class="stack-name">PyTorch</div>
+          <div class="stack-cat">Deep Learning</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div>
+          <div class="stack-name">scikit-learn</div>
+          <div class="stack-cat">ML Library</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div>
+          <div class="stack-name">Pandas · NumPy</div>
+          <div class="stack-cat">Data Processing</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <div>
+          <div class="stack-name">FastAPI</div>
+          <div class="stack-cat">API Backend</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div>
+          <div class="stack-name">Google Colab</div>
+          <div class="stack-cat">Training Environment</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <div class="stack-name">Matplotlib · Seaborn</div>
+          <div class="stack-cat">Visualization</div>
+        </div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg>
+        </div>
+        <div>
+          <div class="stack-name">GitHub</div>
+          <div class="stack-cat">Version Control</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <p class="section-eyebrow">Project roadmap</p>
+  <h2 class="section-title">Milestones</h2>
+  <p class="section-sub">A structured four-phase approach from research to final submission.</p>
+
+  <div class="timeline">
+    <div class="timeline-step active">
+      <div class="tl-dot">01</div>
+      <div class="tl-label">Research</div>
+      <div class="tl-date">Jul – Aug 2025</div>
+    </div>
+    <div class="timeline-step active">
+      <div class="tl-dot">02</div>
+      <div class="tl-label">Data &amp; Model</div>
+      <div class="tl-date">Sep – Nov 2025</div>
+    </div>
+    <div class="timeline-step active">
+      <div class="tl-dot">03</div>
+      <div class="tl-label">Development</div>
+      <div class="tl-date">Dec 2025 – Feb 2026</div>
+    </div>
+    <div class="timeline-step">
+      <div class="tl-dot">04</div>
+      <div class="tl-label">Submission</div>
+      <div class="tl-date">Aug – Sep 2026</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">MUXBITE × BCA · Final Year Project 2025–26</span>
+  <div class="footer-links">
+    <a href="#overview">Overview</a>
+    <a href="#team">Team</a>
+    <a href="#stack">Stack</a>
+  </div>
+  <span class="footer-copy">Shahnewaz @heysanzu</span>
+</footer>
+
 </body>
 </html>
